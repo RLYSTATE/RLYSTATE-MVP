@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "4ED250CC-2D21-493E-8BE1-B4D6620400BB"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "59D76560-1419-4CD3-8952-05E2523E94A8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RLYSTATE_v1/Views/Main/LoginView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D49713D5-BFD1-4C41-96CF-B92A5B8FCB93"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RLYSTATE_v1/Views/Main/LoginView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "D49713D5-BFD1-4C41-96CF-B92A5B8FCB93 - 7191c21b6fe08105"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of RLYSTATE_v1.RegisterView.userProfilePicData : Swift.Optional&lt;Foundation.Data&gt;"
+                  moduleName = "RLYSTATE_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Todezwood/Documents/RLYSTATE_v1/RLYSTATE_v1/Views/Main/LoginView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  uuid = "D49713D5-BFD1-4C41-96CF-B92A5B8FCB93 - c78fbc27a9f02bed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RLYSTATE_v1.RegisterView.userProfilePicData.getter : Swift.Optional&lt;Foundation.Data&gt;"
+                  moduleName = "RLYSTATE_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Todezwood/Documents/RLYSTATE_v1/RLYSTATE_v1/Views/Main/LoginView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "D49713D5-BFD1-4C41-96CF-B92A5B8FCB93 - 61505385e0722c18"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RLYSTATE_v1.RegisterView.userProfilePicData.setter : Swift.Optional&lt;Foundation.Data&gt;"
+                  moduleName = "RLYSTATE_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Todezwood/Documents/RLYSTATE_v1/RLYSTATE_v1/Views/Main/LoginView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "151"
+                  endingLineNumber = "151"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "D49713D5-BFD1-4C41-96CF-B92A5B8FCB93 - 7b75c699816ff72b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RLYSTATE_v1.RegisterView.userProfilePicData.modify : Swift.Optional&lt;Foundation.Data&gt;"
+                  moduleName = "RLYSTATE_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Todezwood/Documents/RLYSTATE_v1/RLYSTATE_v1/Views/Main/LoginView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "151"
+                  endingLineNumber = "151"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "D49713D5-BFD1-4C41-96CF-B92A5B8FCB93 - 26abefb424f1fbe4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RLYSTATE_v1.RegisterView.userProfilePicData.modify : Swift.Optional&lt;Foundation.Data&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "RLYSTATE_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Todezwood/Documents/RLYSTATE_v1/%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "D49713D5-BFD1-4C41-96CF-B92A5B8FCB93 - 244a811ade8cd5a3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RLYSTATE_v1.RegisterView.$userProfilePicData.getter : SwiftUI.Binding&lt;Swift.Optional&lt;Foundation.Data&gt;&gt;"
+                  moduleName = "RLYSTATE_v1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Todezwood/Documents/RLYSTATE_v1/RLYSTATE_v1/Views/Main/LoginView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "151"
+                  endingLineNumber = "151"
+                  offsetFromSymbolStart = "0">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
