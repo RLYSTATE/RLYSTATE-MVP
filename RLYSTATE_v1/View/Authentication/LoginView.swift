@@ -21,10 +21,13 @@ struct LoginView: View {
     @State var showError: Bool = false
     @State var errorMessage: String = ""
     @State var isLoading: Bool = false
+    
     /// Animation View Properties
     @State private var intros: [LoginIntro] = authIntros
     @State private var activeIntro: LoginIntro?
     @State var isAnimating: Bool = true
+    @State private var capsuleOffset: CGFloat = 10
+    
     // User Defaults
     @AppStorage("user_profile_url") var profileURL: URL?
     @AppStorage("user_name") var userNameStored: String = ""
@@ -39,29 +42,33 @@ struct LoginView: View {
                 if let activeIntro {
                     Rectangle()
                         .fill(activeIntro.bgColor)
-                        .padding(.bottom, -30)
-                    /// Circle And Text (change to Rectangle/Line)
+                        .padding(.bottom, -20)
+                    
+                    /// Rectangle And Text (change to Rectangle/Line)
                         .overlay {
-                            Circle()
+                            Rectangle()
                                 .fill(activeIntro.lineColor)
-                                .frame(width: 38, height: 38)
-                                .background(alignment: .leading, content: {
-                                    Capsule()
+                                .frame(width: 56, height: 6)
+                                .padding(.top, 80)
+                            
+                                // Offset moves line within the overlay
+                                .offset(x: +30)
+                                .background(alignment: .trailing, content: {
+                                    Rectangle()
                                         .fill(activeIntro.bgColor)
-                                        .frame(width: size.width)
+                                        .frame(width: 300, height: 50)
+                                        .offset(x: -28)
                                 })
-                                .background(alignment: .leading) {
+                                .background(alignment: .trailing) {
                                     Text(activeIntro.text)
                                         .font(.largeTitle)
                                         .foregroundStyle(activeIntro.textColor)
                                         .frame(width: textSize(activeIntro.text))
-                                        .offset(x: 10)
-                                        /// Moving Text based on text Offset
-                                        .offset(x: activeIntro.textOffset)
+                                        .offset(x: -10)
+                                        .offset(x: -activeIntro.textOffset)
+                                    
                                 }
-                                /// Moving Circle in the opposite Direction
-                                .offset(x: -activeIntro.lineOffset)
-                            
+                                .offset(x: activeIntro.lineOffset)
                         }
                 }
               
@@ -72,16 +79,13 @@ struct LoginView: View {
                 
             }
             .ignoresSafeArea()
-            // Add the tap gesture modifier here to dismiss the keyboard
             .onTapGesture {
-                // This line sends an action to resign the first responder status, dismissing the keyboard
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
         }
         
         
         .vAlign(.top)
-//        .padding(15)
        
         .overlay(content: {
             LoadingView(show: $isLoading)
@@ -161,7 +165,6 @@ struct LoginView: View {
           closeKeyBoard()
         Task{
             do{
-                // With the help of Swift Concurrency Auth can be done with Single Line
                 try await Auth.auth().signIn(withEmail: emailID, password: password)
                 print("User Found")
                 try await fetchUser()
@@ -176,8 +179,10 @@ struct LoginView: View {
     func fetchUser()async throws{
         guard let userID = Auth.auth().currentUser?.uid else {return}
         let user = try await Firestore.firestore().collection("Users").document(userID).getDocument(as: User.self)
+        
         // UI updating must be run on main thread
         await MainActor.run(body: {
+            
             // Setting UserDefaults data and changing App's Auth Status
             userUID = userID
             userNameStored = user.userName
@@ -189,7 +194,6 @@ struct LoginView: View {
     func resetPassword(){
         Task{
             do{
-                // With the help of Swift Concurrency Auth can be done with Single Line
                 try await Auth.auth().sendPasswordReset(withEmail: emailID)
                 print("Link Sent")
             }catch{
@@ -219,8 +223,8 @@ struct LoginView: View {
             
             /// Animating Offset
             withAnimation(.snappy(duration: 1), completionCriteria: .removed) {
-                activeIntro?.textOffset = -(textSize(intros[index].text) + 20)
-                activeIntro?.lineOffset = -(textSize(intros[index].text) + 20) / 2
+                activeIntro?.textOffset = -(textSize(intros[index].text) - 20)
+                activeIntro?.lineOffset = -(textSize(intros[index].text) - 20) / 2
             } completion: {
                 /// Resetting the Offset with Next Slide Color Change
                 withAnimation(.snappy(duration: 0.8), completionCriteria: .logicallyComplete) {
@@ -230,13 +234,11 @@ struct LoginView: View {
                     activeIntro?.bgColor = intros[index + 1].bgColor
                 } completion: {
                     /// Going to Next Slide
-                    ///  Simply Recursion
                     animate(index + 1, loop)
                 }
             }
         } else {
             /// Looping
-            /// If looping Applied, Then Reset the Index to  0
             if loop {
                 animate(0, loop)
             }
