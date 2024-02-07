@@ -52,19 +52,19 @@ struct LoginView: View {
                                 .padding(.top, 80)
                             
                                 // Offset moves line within the overlay
-                                .offset(x: +30)
+                                .offset(x: 0)
                                 .background(alignment: .trailing, content: {
                                     Rectangle()
                                         .fill(activeIntro.bgColor)
                                         .frame(width: 300, height: 50)
-                                        .offset(x: -28)
+                                        .offset(x: -58)
                                 })
                                 .background(alignment: .trailing) {
                                     Text(activeIntro.text)
                                         .font(.largeTitle)
                                         .foregroundStyle(activeIntro.textColor)
                                         .frame(width: textSize(activeIntro.text))
-                                        .offset(x: -10)
+                                        .offset(x: -40)
                                         .offset(x: -activeIntro.textOffset)
                                     
                                 }
@@ -155,7 +155,7 @@ struct LoginView: View {
         }
         .padding(15)
         .padding(.top,40)
-        .background(backgroundColor, in: RoundedRectangle(cornerRadius: 25))
+        .background(backgroundColor, in: RoundedRectangle(cornerRadius: 5))
     }
     
     
@@ -224,7 +224,7 @@ struct LoginView: View {
             /// Animating Offset
             withAnimation(.snappy(duration: 1), completionCriteria: .removed) {
                 activeIntro?.textOffset = -(textSize(intros[index].text) - 20)
-                activeIntro?.lineOffset = -(textSize(intros[index].text) - 20) / 2
+                activeIntro?.lineOffset = -(textSize(intros[index].text) - 90) / 2
             } completion: {
                 /// Resetting the Offset with Next Slide Color Change
                 withAnimation(.snappy(duration: 0.8), completionCriteria: .logicallyComplete) {
