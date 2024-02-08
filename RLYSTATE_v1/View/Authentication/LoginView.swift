@@ -48,7 +48,7 @@ struct LoginView: View {
                         .overlay {
                             Rectangle()
                                 .fill(activeIntro.lineColor)
-                                .frame(width: 56, height: 6)
+                                .frame(width: 50, height: 6)
                                 .padding(.top, 80)
                             
                                 // Offset moves line within the overlay

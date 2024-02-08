@@ -20,25 +20,25 @@ struct LoginIntro: Identifiable {
 /// Sample Intro
 var authIntros: [LoginIntro] = [
     .init(
-        text: "RLYSTATE Reality   ",
+        text: " RLYSTATE Reality   ",
         textColor: .color2,
         lineColor: .color1,
         bgColor: .color3
     ),
     .init(
-        text: "RLYSTATE It Loud   ",
+        text: " RLYSTATE It Loud   ",
         textColor: .color3,
         lineColor: .color2,
         bgColor: .color1
     ),
     .init(
-        text: "RLYSTATE Your Space   ",
+        text: " RLYSTATE Your Space   ",
         textColor: .color1,
         lineColor: .color3,
         bgColor: .color2
     ),
     .init(
-        text: "RLYSTATE Reality   ",
+        text: " RLYSTATE Reality   ",
         textColor: .color2,
         lineColor: .color1,
         bgColor: .color3
