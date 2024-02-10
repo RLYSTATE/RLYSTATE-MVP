@@ -10,6 +10,7 @@ import PhotosUI
 import Firebase
 import FirebaseStorage
 import MapKit
+import CoreML
 
 class SearchCompleter: NSObject, ObservableObject, MKLocalSearchCompleterDelegate {
     @Published var searchResults = [MKLocalSearchCompletion]()
@@ -124,6 +125,7 @@ struct CreateNewPost: View {
     @State private var showImagePicker: Bool = false
     @State private var photoItem: PhotosPickerItem?
     @FocusState private var showKeyboard: Bool
+    @State private var labelPrediction = "" // Content Moderation ML
     
     @State private var showLocationInput = false
     @State private var taggedLocation: CLLocationCoordinate2D?
@@ -233,7 +235,7 @@ struct CreateNewPost: View {
                 }
 
                 
-                Spacer() 
+                Spacer()
                 
                 Button("Done"){
                     showKeyboard = false
@@ -267,11 +269,20 @@ struct CreateNewPost: View {
     }
     // Post Content to Firebase
     func createPost() {
+        analyzePost()
+
+           // If the post is negative, show an error message a
+           if labelPrediction == "BAD" {
+               errorMessage = "Take a chill pill. Let's rephrase that and keep the good vibes."
+               showError = true
+               return
+           }
+
         if locationTag == nil {
               // Set error message prompting user to select a location
               errorMessage = "Please select a location to Rlystate."
               showError = true
-              return // Exit early since we don't want to proceed without a location
+              return 
           }
 
           isLoading = true
@@ -356,6 +367,42 @@ struct CreateNewPost: View {
             errorMessage = error.localizedDescription
             showError.toggle()
         })
+    }
+    
+    
+    // Content Moderation Creating Post
+    private func analyzePost() {
+        do {
+            let configuration = MLModelConfiguration()
+            let model = try RlystateContentModeration(configuration: configuration)
+            let input = RlystateContentModerationInput(text: postText)
+            
+            let output = try model.prediction(input: input)
+         
+            print("Sentiment analysis result: \(output.label)") // Print result of sentiment analysis
+            
+            switch output.label {
+            case "positive":
+                print("The post is positive.")
+                labelPrediction = "GOOD"
+                
+            case "negative":
+                print("The post is negative.")
+                labelPrediction = "BAD"
+                
+            case "neutral":
+                print("The post is neutral.")
+                labelPrediction = "NEUTRAL"
+                
+            default:
+                print("Unexpected label: \(output.label)")
+                labelPrediction = "Error"
+            }
+        } catch {
+        
+            print("Error in model prediction: \(error.localizedDescription)")
+            labelPrediction = "Error"
+        }
     }
 }
 

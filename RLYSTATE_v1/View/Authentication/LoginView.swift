@@ -35,7 +35,7 @@ struct LoginView: View {
     @AppStorage("log_status") var logStatus: Bool = false
     var body: some View {
         GeometryReader {_ in 
-//            let size = $0.size
+            //          _ze = $0.size
 //            let safeArea = $0.safeAreaInsets
             
             VStack(spacing:0) {
