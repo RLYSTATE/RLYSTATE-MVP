@@ -15,6 +15,7 @@ struct PostCardView: View {
     // Callbacks
     var onUpdate: (Post)->()
     var onDelete: ()->()
+    var onHidePost: (_ postID: String) -> Void
     // View Properties
     @AppStorage("user_UID") private var userUID: String = ""
     @State private var docListener: ListenerRegistration?
@@ -30,7 +31,6 @@ struct PostCardView: View {
                 if let locationTag = post.locationTag {
                     let components = locationTag.components(separatedBy: ",")
                     let shortenedLocation = components.prefix(1).joined(separator: ",")
-//                    let shortenedLocationName = components.dropFirst().joined(separator: ",")
                     
                     Text(post.userName)
                         .font(.callout)
@@ -68,9 +68,15 @@ struct PostCardView: View {
         .hAlign(.leading)
         .overlay(alignment: .topTrailing, content: {
             // Displaying Delete Button (if it's AUther of that Post)
-            if post.userUID == userUID{
                 Menu {
-                    Button("Delete Post",role: .destructive, action: deletePost)
+                    if post.userUID == userUID{
+                        
+                        Button("Delete Post",role: .destructive, action: deletePost)
+                    }else{
+                        Button("Hide Post", action: hidePost)
+                        
+                        Button("Report", action:reportPost)
+                    }
                 }label: {
                     Image(systemName: "ellipsis")
                         .font(.caption)
@@ -80,7 +86,6 @@ struct PostCardView: View {
                         .contentShape(Rectangle())
                 }
                 .offset(x: 8)
-            }
         })
         
         .onAppear {
@@ -196,5 +201,38 @@ struct PostCardView: View {
                 print(error.localizedDescription)
             }
         }
+    }
+    func hidePost() {
+        Task {
+            guard let postID = post.id else { return }
+            
+            let userID = self.userUID
+            let db = Firestore.firestore()
+            let postRef = db.collection("Posts").document(postID)
+
+            do {
+                // Hide the post for the current user
+                try await postRef.updateData([
+                    "hiddenFor": FieldValue.arrayUnion([userID])
+                ])
+                print("Post hidden successfully for user: \(userID)")
+                
+                // Call the callback to signal that the post should be removed from the visible list
+                DispatchQueue.main.async {
+                    self.onHidePost(postID)
+                }
+            } catch {
+                print("Error hiding post: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func reportPost(){
+        print("Post reported")
+    }
+    
+    func removeFromVisiblePosts(postID: String) {
+        // This is a placeholder function. You'll need to implement the actual logic
+        // that filters out or removes the given postID from the 'posts' array in your view model or view.
     }
 }

@@ -59,27 +59,35 @@ struct ReusablePostView: View {
 // Displaying Fetched Post's
 @ViewBuilder
 func Posts()->some View{
-    ForEach(posts){post in
-        PostCardView(post: post) { updatedPost in
-            /// Updating Post in the Array
-            if let index = posts.firstIndex(where: { post in
-                post.id == updatedPost.id
-            }){
-                posts[index].likedIDs = updatedPost.likedIDs
-                posts[index].dislikedIDs = updatedPost.dislikedIDs
-            }
-        } onDelete: {
-            /// Removing Post from the Array
-            withAnimation(.easeInOut(duration: 0.25)){
-                posts.removeAll{post.id == $0.id}
-            }
-        }
-        .onAppear {
-            /// When Last Post Appears, Fetching New Post ( If There)
-            if post.id == posts.last?.id && paginationDoc != nil{
-                Task{await fetchPosts()}
-            }
-        }
+    ForEach(posts) { post in
+           PostCardView(post: post,
+                        onUpdate: { updatedPost in
+                            // Updating Post in the Array
+                            if let index = self.posts.firstIndex(where: { $0.id == updatedPost.id }) {
+                                self.posts[index].likedIDs = updatedPost.likedIDs
+                                self.posts[index].dislikedIDs = updatedPost.dislikedIDs
+                            }
+                        },
+                        onDelete: {
+                            // Removing Post from the Array
+                            withAnimation(.easeInOut(duration: 0.25)) {
+                                self.posts.removeAll { $0.id == post.id }
+                            }
+                        },
+                        onHidePost: { postIDToRemove in
+                            // Removing hidden post from the Array
+                            withAnimation(.easeInOut(duration: 0.25)) {
+                                self.posts.removeAll { $0.id == postIDToRemove }
+                            }
+                        })
+           .onAppear {
+               // Fetch more posts when the last post appears
+               if post.id == self.posts.last?.id && self.paginationDoc != nil {
+                   Task {
+                       await self.fetchPosts()
+                   }
+               }
+           }
         
         Divider()
             .padding(.horizontal, -15)
@@ -118,13 +126,20 @@ func fetchPosts()async{
         
 
         let docs = try await query.getDocuments()
-        let fetchedPosts = docs.documents.compactMap{ doc -> Post? in try? doc.data(as: Post.self)
+        let fetchedPosts = docs.documents.compactMap { doc -> Post? in
+            try? doc.data(as: Post.self)
         }
-        await MainActor.run(body: {
-            posts.append(contentsOf: fetchedPosts)
+
+        let currentUserUID = self.uid
+        let postsToShow = fetchedPosts.filter { post in
+            !(post.hiddenFor?.contains(currentUserUID) ?? false)
+        }
+
+        await MainActor.run {
+            self.posts.append(contentsOf: postsToShow)
             paginationDoc = docs.documents.last
             isFetching = false
-        })
+        }
     }catch{
         print(error.localizedDescription)
         }

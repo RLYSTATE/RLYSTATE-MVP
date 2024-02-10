@@ -15,7 +15,8 @@ struct Post: Identifiable, Codable, Equatable,Hashable {
     // User profile
     var userName: String
     var userUID: String
-    var userProfileURL: URL // Store as String for Firestore
+    var userProfileURL: URL
+    var hiddenFor: [String]?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -31,6 +32,7 @@ struct Post: Identifiable, Codable, Equatable,Hashable {
         case userName
         case userUID
         case userProfileURL
+        case hiddenFor
     }
 }
 
