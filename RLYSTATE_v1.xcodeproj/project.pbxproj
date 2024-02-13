@@ -14,6 +14,8 @@
 		537E815B2B50D6ED009B0890 /* LoginIntro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537E815A2B50D6ED009B0890 /* LoginIntro.swift */; };
 		5395D5D62B4CB5F2004AEFB9 /* AnnotationPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395D5D52B4CB5F2004AEFB9 /* AnnotationPostView.swift */; };
 		53B419312B71691700AC3D7F /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B419302B71691700AC3D7F /* TabBar.swift */; };
+		53B77AD32B7BD5820017FA1A /* MailComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B77AD22B7BD5820017FA1A /* MailComposeViewController.swift */; };
+		53B77AD52B7C15B10017FA1A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B77AD42B7C15B10017FA1A /* ViewController.swift */; };
 		53CEBA2A2B77377200F926F2 /* RlystateContentModeration.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 53CEBA292B77377200F926F2 /* RlystateContentModeration.mlmodel */; };
 		53D1852F2B61C39100B0DB9E /* PostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D1852E2B61C39100B0DB9E /* PostDetailsView.swift */; };
 		53EC9AD42B3E1618003D876A /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9AD02B3E1618003D876A /* DetailsView.swift */; };
@@ -83,6 +85,8 @@
 		537E815A2B50D6ED009B0890 /* LoginIntro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginIntro.swift; sourceTree = "<group>"; };
 		5395D5D52B4CB5F2004AEFB9 /* AnnotationPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationPostView.swift; sourceTree = "<group>"; };
 		53B419302B71691700AC3D7F /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		53B77AD22B7BD5820017FA1A /* MailComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeViewController.swift; sourceTree = "<group>"; };
+		53B77AD42B7C15B10017FA1A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		53CEBA292B77377200F926F2 /* RlystateContentModeration.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RlystateContentModeration.mlmodel; sourceTree = "<group>"; };
 		53D1852E2B61C39100B0DB9E /* PostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsView.swift; sourceTree = "<group>"; };
 		53EC9AD02B3E1618003D876A /* DetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
@@ -268,6 +272,8 @@
 			isa = PBXGroup;
 			children = (
 				53EC9AD82B3E1622003D876A /* View-Extensions.swift */,
+				53B77AD22B7BD5820017FA1A /* MailComposeViewController.swift */,
+				53B77AD42B7C15B10017FA1A /* ViewController.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -431,8 +437,10 @@
 				53EC9B042B3F1E0F003D876A /* ReusablePostView.swift in Sources */,
 				53EC9B022B3F1E0F003D876A /* MainView.swift in Sources */,
 				53EC9B092B3F1E3B003D876A /* LoginView.swift in Sources */,
+				53B77AD52B7C15B10017FA1A /* ViewController.swift in Sources */,
 				537E815B2B50D6ED009B0890 /* LoginIntro.swift in Sources */,
 				53EC9B0A2B3F1E3B003D876A /* LandingView.swift in Sources */,
+				53B77AD32B7BD5820017FA1A /* MailComposeViewController.swift in Sources */,
 				53EC9AD52B3E1618003D876A /* SearchView.swift in Sources */,
 				53EC9AF62B3F1DCD003D876A /* LocationSearchViewModel.swift in Sources */,
 				53EC9B012B3F1E0F003D876A /* PostCardView.swift in Sources */,
@@ -573,7 +581,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RLYSTATE_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = RMJNU56W7X;
+				DEVELOPMENT_TEAM = DP6339KDU9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RLYSTATE-v1-Info.plist";
@@ -589,7 +597,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rlystate.RLYSTATE;
+				PRODUCT_BUNDLE_IDENTIFIER = rlystate.RLYSTATE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -611,7 +619,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RLYSTATE_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = RMJNU56W7X;
+				DEVELOPMENT_TEAM = DP6339KDU9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RLYSTATE-v1-Info.plist";
@@ -627,7 +635,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rlystate.RLYSTATE;
+				PRODUCT_BUNDLE_IDENTIFIER = rlystate.RLYSTATE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

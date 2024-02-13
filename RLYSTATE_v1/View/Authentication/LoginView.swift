@@ -156,6 +156,7 @@ struct LoginView: View {
         .padding(15)
         .padding(.top,40)
         .background(backgroundColor, in: RoundedRectangle(cornerRadius: 5))
+        .keyboardResponsive()
     }
     
     

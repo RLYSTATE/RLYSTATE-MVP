@@ -9,6 +9,9 @@ import SwiftUI
 import SDWebImageSwiftUI
 import Firebase
 import FirebaseStorage
+import UIKit
+import MessageUI
+import SafariServices
 
 struct PostCardView: View {
     var post: Post
@@ -18,7 +21,12 @@ struct PostCardView: View {
     var onHidePost: (_ postID: String) -> Void
     // View Properties
     @AppStorage("user_UID") private var userUID: String = ""
+    @State private var showingMailComposer = false
     @State private var docListener: ListenerRegistration?
+    @State private var showSafari = false
+//    @State private var safariURL = URL(string: "https://www.rlystate.com/contact-us")!
+    
+    
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             WebImage(url: post.userProfileURL)
@@ -68,25 +76,108 @@ struct PostCardView: View {
         .hAlign(.leading)
         .overlay(alignment: .topTrailing, content: {
             // Displaying Delete Button (if it's AUther of that Post)
-                Menu {
-                    if post.userUID == userUID{
-                        
-                        Button("Delete Post",role: .destructive, action: deletePost)
-                    }else{
-                        Button("Hide Post", action: hidePost)
-                        
-                        Button("Report", action:reportPost)
-                    }
-                }label: {
-                    Image(systemName: "ellipsis")
-                        .font(.caption)
-                        .rotationEffect(.init(degrees: -90))
-                        .foregroundColor(.black)
-                        .padding(8)
-                        .contentShape(Rectangle())
+            Menu {
+                if post.userUID == userUID{
+                    
+                    Button("Delete Post",role: .destructive, action: deletePost)
+                }else{
+                    Button("Hide Post", action: hidePost)
+                    
+                    Button("Report", action: {
+                        if MFMailComposeViewController.canSendMail() {
+                            self.showingMailComposer = true
+                        } else {
+                            if let url = URL(string: "https://www.rlystate.com/contact-us"), UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    })
                 }
-                .offset(x: 8)
+            }label: {
+                Image(systemName: "ellipsis")
+                    .font(.caption)
+                    .rotationEffect(.init(degrees: -90))
+                    .foregroundColor(.black)
+                    .padding(8)
+                    .contentShape(Rectangle())
+            }
+            .offset(x: 8)
         })
+        .sheet(isPresented: $showingMailComposer) {
+            MailComposeViewController(subject: "Report Post",
+                                      recipients: ["shervin@rlystate.com"],
+                                      messageBody: """
+                                      <html>
+                                      <head>
+                                      <style>
+                                        body {
+                                          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                                          color: #444;
+                                          max-width: 600px;
+                                          margin: auto;
+                                          padding: 20px;
+                                          background-color: #F9F9F9;
+                                          border-radius: 10px;
+                                          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                        }
+                                        h2 {
+                                          color: #5371FF; /* Updated color */
+                                          font-size: 24px;
+                                          margin-bottom: 20px;
+                                        }
+                                        p {
+                                          font-size: 16px;
+                                          line-height: 1.6;
+                                          color: #555;
+                                        }
+                                        ul {
+                                          background-color: #FFF;
+                                          padding: 20px;
+                                          border: 1px solid #DDD;
+                                          border-radius: 8px;
+                                          list-style: none;
+                                        }
+                                        li {
+                                          margin-bottom: 10px;
+                                          font-size: 16px;
+                                          line-height: 1.6;
+                                        }
+                                        li span {
+                                          font-weight: bold;
+                                          color: #333;
+                                        }
+                                        .footer {
+                                          margin-top: 20px;
+                                          font-size: 14px;
+                                          color: #999;
+                                          text-align: center;
+                                        }
+                                        .button {
+                                          display: inline-block;
+                                          background-color: #5371FF; /* Updated color */
+                                          color: #ffffff;
+                                          padding: 10px 20px;
+                                          border-radius: 5px;
+                                          text-decoration: none;
+                                          font-weight: bold;
+                                          margin-top: 20px;
+                                        }
+                                      </style>
+                                      </head>
+                                      <body>
+                                      <h2>We're Listening</h2>
+                                      <p>Thank you for bringing this to our attention. Your experience and safety are our top priorities. Here's a summary of your report:</p>
+                                      <ul>
+                                        <li><span>Post:</span> \(post.text)</li>
+                                        <li><span>User:</span> \(post.userName)</li>
+                                      </ul>
+                                      <p>We're on it! Our team will review the details and take appropriate action. We're here to support you.</p>
+                                      <p class="footer">Need further assistance? <a href="https://www.rlystate.com/contact-us" class="button">Contact Us</a></p>
+                                      </body>
+                                      </html>
+                                      """,
+                                      isHTML: true)
+        }
         
         .onAppear {
             // when the post is visible on the screen, the doc listener is added, otherwise listener is removed
@@ -209,7 +300,7 @@ struct PostCardView: View {
             let userID = self.userUID
             let db = Firestore.firestore()
             let postRef = db.collection("Posts").document(postID)
-
+            
             do {
                 // Hide the post for the current user
                 try await postRef.updateData([
@@ -229,10 +320,5 @@ struct PostCardView: View {
     
     func reportPost(){
         print("Post reported")
-    }
-    
-    func removeFromVisiblePosts(postID: String) {
-        // This is a placeholder function. You'll need to implement the actual logic
-        // that filters out or removes the given postID from the 'posts' array in your view model or view.
     }
 }
