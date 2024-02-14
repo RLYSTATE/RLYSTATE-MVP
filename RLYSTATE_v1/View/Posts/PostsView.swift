@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 struct PostsView: View {
     @State private var recentPosts: [Post] = []
@@ -15,9 +16,15 @@ struct PostsView: View {
             ReusablePostView(posts: $recentPosts)
                 .hAlign(.center).vAlign(.center)
                 .overlay(alignment: .bottomTrailing) {
-                    Button {
+                    Button(action: {
+                        // Log the button click with Firebase Analytics
+                        Analytics.logEvent("create_post_button_clicked", parameters: [
+                            "screen": "PostsView",
+                            "time": Date().description
+                        ])
+                        // Toggle the state to show create post view
                         createNewPost.toggle()
-                    } label: {
+                    }) {
                         Image(systemName: "plus")
                             .font(.title2)
                             .foregroundColor(.black)
@@ -25,15 +32,15 @@ struct PostsView: View {
                             .background(.white)
                             .clipShape(Circle())
                             .shadow(color: .black, radius: 4)
-                }
+                    }
                     .padding(15)
-            }
+                }
                 .navigationTitle("Post's")
         }
-            .fullScreenCover(isPresented: $createNewPost) {
-                CreateNewPost { post in
-                    /// adding created posts at the top of recent posts
-                    recentPosts.insert(post, at: 0)
+        .fullScreenCover(isPresented: $createNewPost) {
+            CreateNewPost { post in
+                /// adding created posts at the top of recent posts
+                recentPosts.insert(post, at: 0)
             }
         }
     }

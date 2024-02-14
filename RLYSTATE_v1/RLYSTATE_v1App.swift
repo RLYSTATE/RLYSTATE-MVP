@@ -14,10 +14,14 @@ struct Rlystate_V2App: App {
     init() {
         FirebaseApp.configure()
     }
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    // Track app open
+                    Analytics.logEvent(AnalyticsEventAppOpen, parameters: nil)
+                }
         }
     }
 }

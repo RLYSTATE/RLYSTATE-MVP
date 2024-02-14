@@ -10,6 +10,7 @@ import Firebase
 import FirebaseStorage
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseAnalytics
 
 struct ProfileView: View {
     // Profile Data
@@ -37,29 +38,39 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
-                        // Two Actions
-                        // 1. Provide Feedback
-                        // 2. Logout
-                        // 2. Delete Account
-                        Link("Provide Feedback", destination: URL(string: "https://forms.gle/LgbCRi6hPDZo2eYRA")!)
+                        Button(action: {
+                            // Log the button click with Firebase Analytics
+                            Analytics.logEvent("feedback_button_clicked", parameters: [
+                                "screen": "ProfileView",
+                                "time": Date().description
+                            ])
+                            
+                            // Open the feedback link
+                            if let url = URL(string: "https://forms.gle/LgbCRi6hPDZo2eYRA") {
+                                UIApplication.shared.open(url)
+                            }
+                        }) {
+                            Text("Provide Feedback")
+                        }
+                        
                         Button("Logout", action: logOutUser)
                         
                         Button("Delete Account", role: .destructive, action: deleteAccount)
-                        
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .rotationEffect(.init(degrees: 90))
-                            .tint(.black)
-                            .scaleEffect(0.8)
-                        }
                     }
+                label: {
+                    Image(systemName: "ellipsis")
+                        .rotationEffect(.init(degrees: 90))
+                        .tint(.black)
+                        .scaleEffect(0.8)
+                }
                 }
             }
+        }
         .overlay {
             LoadingView(show: $isLoading)
-            }
+        }
         .alert(errorMessage, isPresented: $showError) {
-            }
+        }
         .task {
             // This Modifier is like onAppear
             // So Fetching for the first time only
@@ -99,14 +110,14 @@ struct ProfileView: View {
                     try await postsRef.document(document.documentID).delete()
                     // Optionally delete associated images from Storage if they exist
                 }
-
+                
                 // Delete Profile Image from Storage
                 let profileImageRef = Storage.storage().reference().child("Profile_Images").child(userUID)
                 try await profileImageRef.delete()
-
+                
                 // Delete User Document from Firestore
                 try await Firestore.firestore().collection("Users").document(userUID).delete()
-
+                
                 // Delete User from Firebase Authentication
                 try await Auth.auth().currentUser?.delete()
                 
