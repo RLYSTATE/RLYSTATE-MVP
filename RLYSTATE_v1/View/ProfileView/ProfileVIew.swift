@@ -38,11 +38,14 @@ struct ProfileView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         // Two Actions
-                        // 1. Logout
+                        // 1. Provide Feedback
+                        // 2. Logout
                         // 2. Delete Account
+                        Link("Provide Feedback", destination: URL(string: "https://forms.gle/LgbCRi6hPDZo2eYRA")!)
                         Button("Logout", action: logOutUser)
                         
                         Button("Delete Account", role: .destructive, action: deleteAccount)
+                        
                     } label: {
                         Image(systemName: "ellipsis")
                             .rotationEffect(.init(degrees: 90))
