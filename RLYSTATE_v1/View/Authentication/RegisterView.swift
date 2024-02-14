@@ -36,11 +36,11 @@ struct RegisterView: View{
         @AppStorage ("user_UID") var userUID: String = ""
         var body: some View{
         VStack(spacing: 10) {
-            Text("Let's Register\nAccount")
+            Text("Register Account")
                 .font(.largeTitle.bold())
                 .hAlign(.leading)
             
-            Text("Hello user, have a wonderful journey")
+            Text("Let's RLYSTATE now")
                 .font(.title3)
                 .hAlign(.leading)
             
