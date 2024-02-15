@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>rlystate.RLYSTATE-v1</string>
+	<string>rlystate.RLYSTATE</string>
 	<key>PROJECT_ID</key>
 	<string>spatial-shore-408314</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:219035774092:ios:dd7fbfac14182142d8dfa9</string>
+	<string>1:219035774092:ios:3bf3ec01bb98c3b4d8dfa9</string>
 </dict>
 </plist>
