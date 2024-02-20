@@ -17,6 +17,7 @@
 		53B77AD32B7BD5820017FA1A /* MailComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B77AD22B7BD5820017FA1A /* MailComposeViewController.swift */; };
 		53B77AD52B7C15B10017FA1A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B77AD42B7C15B10017FA1A /* ViewController.swift */; };
 		53B77B4F2B7ED2790017FA1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 53B77B4E2B7ED2780017FA1A /* GoogleService-Info.plist */; };
+		53B77B952B85272C0017FA1A /* ComplexLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B77B942B85272C0017FA1A /* ComplexLogView.swift */; };
 		53CEBA2A2B77377200F926F2 /* RlystateContentModeration.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 53CEBA292B77377200F926F2 /* RlystateContentModeration.mlmodel */; };
 		53D1852F2B61C39100B0DB9E /* PostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D1852E2B61C39100B0DB9E /* PostDetailsView.swift */; };
 		53EC9AD42B3E1618003D876A /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9AD02B3E1618003D876A /* DetailsView.swift */; };
@@ -88,6 +89,7 @@
 		53B77AD22B7BD5820017FA1A /* MailComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeViewController.swift; sourceTree = "<group>"; };
 		53B77AD42B7C15B10017FA1A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		53B77B4E2B7ED2780017FA1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		53B77B942B85272C0017FA1A /* ComplexLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexLogView.swift; sourceTree = "<group>"; };
 		53CEBA292B77377200F926F2 /* RlystateContentModeration.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RlystateContentModeration.mlmodel; sourceTree = "<group>"; };
 		53D1852E2B61C39100B0DB9E /* PostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsView.swift; sourceTree = "<group>"; };
 		53EC9AD02B3E1618003D876A /* DetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				53EC9AB62B3E1246003D876A /* View */,
 				53117A3D2B23CF9C0068752E /* Models */,
 				53117A292B23CE2A0068752E /* Assets.xcassets */,
+				53B77B942B85272C0017FA1A /* ComplexLogView.swift */,
 				53117A2B2B23CE2A0068752E /* Preview Content */,
 			);
 			path = RLYSTATE_v1;
@@ -453,6 +456,7 @@
 				53EC9AE72B3E1646003D876A /* MapView.swift in Sources */,
 				53EC9B0C2B3F1E3B003D876A /* RegisterView.swift in Sources */,
 				53B419312B71691700AC3D7F /* TabBar.swift in Sources */,
+				53B77B952B85272C0017FA1A /* ComplexLogView.swift in Sources */,
 				53EC9AE92B3E1646003D876A /* MapViewRepresentable.swift in Sources */,
 				53EC9B0B2B3F1E3B003D876A /* LoadingView.swift in Sources */,
 				53EC9B0F2B3F1E54003D876A /* PostsView.swift in Sources */,
@@ -609,7 +613,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"RLYSTATE_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = RMJNU56W7X;
+				DEVELOPMENT_TEAM = DP6339KDU9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RLYSTATE-v1-Info.plist";
@@ -625,7 +629,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = rlystate.RLYSTATE;
+				PRODUCT_BUNDLE_IDENTIFIER = rlystate.RLYSTATE.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -647,7 +651,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RLYSTATE_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = RMJNU56W7X;
+				DEVELOPMENT_TEAM = DP6339KDU9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RLYSTATE-v1-Info.plist";
@@ -663,7 +667,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = rlystate.RLYSTATE;
+				PRODUCT_BUNDLE_IDENTIFIER = rlystate.RLYSTATE.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

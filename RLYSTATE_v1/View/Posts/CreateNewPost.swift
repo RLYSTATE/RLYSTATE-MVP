@@ -113,10 +113,12 @@ struct CreateNewPost: View {
     // Post Properties
     @State private var postText: String = ""
     @State private var postImageData: Data?
+    
     // Stored User Data From UserDefaults(AppStorage)
     @AppStorage("user_profile_url") private var profileURL: URL?
     @AppStorage("user_name") private var userName: String = ""
     @AppStorage("user_UID") private var userUID: String = ""
+    
     // View Properties
     @Environment(\.dismiss) private var dismiss
     @State private var isLoading: Bool = false
@@ -126,6 +128,8 @@ struct CreateNewPost: View {
     @State private var photoItem: PhotosPickerItem?
     @FocusState private var showKeyboard: Bool
     @State private var labelPrediction = "" // Content Moderation ML
+    
+    @FocusState private var isTextFieldFocused: Bool
     
     @State private var showLocationInput = false
     @State private var taggedLocation: CLLocationCoordinate2D?
@@ -174,8 +178,8 @@ struct CreateNewPost: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 15) {
-                    TextField("Rlystate what's up?", text: $postText,axis: .vertical)
-                        .focused($showKeyboard)
+                    TextField("Rlystate what's up?", text: $postText, axis: .vertical)
+                        .focused($isTextFieldFocused)
                     
                     
                     if let postImageData, let image = UIImage(data: postImageData) {
@@ -255,6 +259,7 @@ struct CreateNewPost: View {
                         await MainActor.run(body: {
                             postImageData = compressedImageData
                             photoItem = nil
+                            isTextFieldFocused = true
                         })
                     }
                 }

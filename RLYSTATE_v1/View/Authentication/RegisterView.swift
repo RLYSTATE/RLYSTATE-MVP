@@ -39,10 +39,12 @@ struct RegisterView: View{
             Text("Register Account")
                 .font(.largeTitle.bold())
                 .hAlign(.leading)
+                .keyboardResponsive()
             
             Text("Let's RLYSTATE now")
                 .font(.title3)
                 .hAlign(.leading)
+                
             
             //Smaller Size Optimization
             ViewThatFits{
@@ -190,7 +192,7 @@ struct RegisterView: View{
                let _ = try await storageRef.putDataAsync(imageData)
                     // Step 3 Downloading Photo URL
                 let downloadURL = try await storageRef.downloadURL()
-                    // Step 4 Creating a user FIrestore Object
+                    // Step 4 Creating a user Firestore Object
                 let user = User(userName: userName, userBio: userBio, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
                     // Step 5 Saving USer Doc into FIrebase Database
                 let _ = try Firestore.firestore().collection("Users").document(userUID).setData(from: user, completion: {
