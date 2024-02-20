@@ -4,6 +4,7 @@
 //
 //  Created by Shervin Mobasheri on 12/18/23.
 //
+// THIS IS OLD LOG IN LOGIC THAT CAUSED A FAIL
 
 import SwiftUI
 import PhotosUI
