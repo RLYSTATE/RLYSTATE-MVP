@@ -1,5 +1,6 @@
 import SwiftUI
 import FirebaseFirestoreSwift
+import Foundation
 
 struct Post: Identifiable, Codable, Equatable,Hashable {
     @DocumentID var id: String?
@@ -17,6 +18,8 @@ struct Post: Identifiable, Codable, Equatable,Hashable {
     var userUID: String
     var userProfileURL: URL
     var hiddenFor: [String]?
+    var tags: [String]?
+    
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -33,6 +36,7 @@ struct Post: Identifiable, Codable, Equatable,Hashable {
         case userUID
         case userProfileURL
         case hiddenFor
+        case tags
     }
 }
 

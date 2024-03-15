@@ -95,7 +95,7 @@ struct AnnotationPostView_Previews: PreviewProvider {
         // Create a mock post object with the necessary details
         let mockPost = Post(id: "1", text: "Test Post", locationTag: "7 Park Ave, New York, NY, United States", userName: "User", userUID: "UID", userProfileURL: URL(string: "https://example.com")!)
 
-        // Use a .constant binding for the preview 
+        // Use a .constant binding for the preview
         AnnotationPostView(post: mockPost, isShowing: .constant(true))
     }
 }

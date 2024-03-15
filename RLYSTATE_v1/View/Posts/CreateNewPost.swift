@@ -58,32 +58,31 @@ struct LocationInputView: View {
             
             
             
-            // Custom list style using ScrollView and VStack
-            ScrollView {
-                VStack(spacing: 0) { // Remove spacing between elements
-                    ForEach(searchCompleter.searchResults, id: \.self) { result in
-                        Button(action: {
-                            self.addressInput = "\(result.title), \(result.subtitle)"
-                            validateAddress()
-                            dismiss()
-                        }) {
-                            VStack(alignment: .leading) {
-                                Text("\(result.title), \(result.subtitle)")
-                                    .foregroundColor(.black)
-                                    .padding()
-                                Divider()
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .contentShape(Rectangle())
+        ScrollView {
+            VStack(spacing: 0) { // Remove spacing between elements
+                ForEach(searchCompleter.searchResults, id: \.self) { result in
+                    Button(action: {
+                        self.addressInput = "\(result.title), \(result.subtitle)"
+                        validateAddress()
+                        dismiss()
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("\(result.title), \(result.subtitle)")
+                                .foregroundColor(.black)
+                                .padding()
+                            Divider()
                         }
-                        .buttonStyle(PlainButtonStyle()) // Apply plain button style to remove any default styling
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
-            .frame(maxWidth: .infinity)
-            .padding(15)
         }
-        .background(Color.white) // Set the background color to white to match the text field
+        .frame(maxWidth: .infinity)
+        .padding(15)
+    }
+    .background(Color.white)
     }
     
     private func validateAddress() {
@@ -108,6 +107,9 @@ struct LocationInputView: View {
 
 
 struct CreateNewPost: View {
+    @State private var showingTagView = false
+    @State private var tagsForNewPost: [Tag] = [.init(value: "#rlystate", isInitial: false)]
+
     // - Callbacks
     var onPost: (Post)->()
     // Post Properties
@@ -140,8 +142,11 @@ struct CreateNewPost: View {
     init(onPost: @escaping (Post) -> (), initialLocationTag: String? = nil) {
         self.onPost = onPost
         self._locationTag = State(initialValue: initialLocationTag)
-    }
+          // Reset tags for a new post
+          TagManager.shared.sessionTags = [.init(value: "#rlystate", isInitial: false)]
+      }
 
+    
     
     var body: some View {
         VStack{
@@ -209,6 +214,16 @@ struct CreateNewPost: View {
                     }
                 }
                 .padding(15)
+                
+              ///tags in post
+                HStack {
+                    ForEach(tagsForNewPost, id: \.self) { tag in
+                        Text(tag.value)
+                            .padding(5)
+                            .font(.system(size: 14))
+                            .background(Capsule().stroke(Color.blue,lineWidth: 1))
+                            .lineLimit(1)                    }
+                }
             }
             
             
@@ -222,18 +237,17 @@ struct CreateNewPost: View {
                         .font(.title3)
                         .foregroundColor(.black)
                 }
-                Spacer() // This will push the next button to the center
+                Spacer()
                 
                 Button(action: {
                     showLocationInput.toggle()
                 }) {
                     Image(systemName: taggedLocation == nil ? "mappin.circle" : "mappin.circle.fill")
-                        .font(.title3) // Adjust the size of the icon as needed
+                        .font(.title3)
                         .foregroundColor(taggedLocation == nil ? .black : .black)
                         .padding()
                 }
                 
-                // Present the half sheet view for address input
                 .sheet(isPresented: $showLocationInput) {
                     LocationInputView(addressInput: $addressInput, selectedLocation: $taggedLocation, locationTag: $locationTag)
                 }
@@ -241,9 +255,17 @@ struct CreateNewPost: View {
                 
                 Spacer()
                 
-                Button("Done"){
-                    showKeyboard = false
+                Button(action: {
+                    showingTagView.toggle()
+                }) {
+                    Image(systemName: tagIconName())
+                        .font(.title3)
+                        .foregroundColor(.black)
                 }
+                .sheet(isPresented: $showingTagView) {
+                    TagView(tags: $tagsForNewPost) 
+                }
+
             }
             .foregroundColor(.black)
             .padding(.horizontal,15)
@@ -305,6 +327,9 @@ struct CreateNewPost: View {
                     let _ = try await storageRef.putDataAsync(postImageData)
                     let downloadURL = try await storageRef.downloadURL()
                     
+                    //tags
+                    let tags = tagsForNewPost.map { $0.value }
+                    
                     let post = Post(
                         text: postText,
                         imageURL: downloadURL,
@@ -314,10 +339,15 @@ struct CreateNewPost: View {
                         longitude: locationData.longitude,
                         userName: userName,
                         userUID: userUID,
-                        userProfileURL: profileURL
+                        userProfileURL: profileURL,
+                        // tags
+                        tags: tags
                     )
                     try await createDocumentAtFirebase(post)
                 } else {
+                    //post without tags
+                    let tags = tagsForNewPost.map { $0.value }
+                    
                     let post = Post(
                         text: postText,
                         locationTag: locationData.locationTag,
@@ -325,7 +355,8 @@ struct CreateNewPost: View {
                         longitude: locationData.longitude,
                         userName: userName,
                         userUID: userUID,
-                        userProfileURL: profileURL
+                        userProfileURL: profileURL,
+                        tags: tags
                     )
                     try await createDocumentAtFirebase(post)
                 }
@@ -409,6 +440,21 @@ struct CreateNewPost: View {
             labelPrediction = "Error"
         }
     }
+    
+    class TagManager {
+        static let shared = TagManager()
+        var sessionTags: [Tag] = [.init(value: "#rlystate", isInitial: false)]
+
+        private init() {}
+    }
+    
+    
+    func tagIconName() -> String {
+        // default tag to be "rlystate"
+        let hasTags = tagsForNewPost.contains(where: { $0.value != "#rlystate" && !$0.value.isEmpty })
+        return hasTags ? "tag.fill" : "tag"
+    }
+
 }
 
 struct CreateNewPost_Previews: PreviewProvider {

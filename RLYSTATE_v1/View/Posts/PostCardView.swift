@@ -200,8 +200,6 @@ struct PostCardView: View {
             }
         }
         .onDisappear {
-            // Applying Snapshot listener only when the post is available on the screen
-            // else removing the listener (it saves unwanted live updated from the posts which was swipeed away from the screen)
             
             if let docListener{
                 docListener.remove()
