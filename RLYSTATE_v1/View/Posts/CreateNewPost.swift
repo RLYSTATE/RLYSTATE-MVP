@@ -365,8 +365,20 @@ struct CreateNewPost: View {
             }
         }
     }
-
-
+    
+//    func addCommentToPost(postID: String, comment: Comment) async throws {
+//        let db = Firestore.firestore()
+//        let postRef = db.collection("Posts").document(postID)
+//        let commentsRef = postRef.collection("Comments")
+//        
+//        do {
+//            _ = try commentsRef.addDocument(from: comment)
+//            print("Comment successfully added to Firestore under Post ID: \(postID)")
+//        } catch {
+//            print("Error adding comment to Firestore: \(error.localizedDescription)")
+//            throw error
+//        }
+//    }
 
     
     func createDocumentAtFirebase(_ post: Post) async throws {
@@ -456,6 +468,7 @@ struct CreateNewPost: View {
     }
 
 }
+
 
 struct CreateNewPost_Previews: PreviewProvider {
     static var previews: some View {
