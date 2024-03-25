@@ -18,6 +18,9 @@ struct ReusablePostView: View {
     @State private var isFetching: Bool = true
     /// Pagination
     @State private var paginationDoc: QueryDocumentSnapshot?
+    /// comment post view
+    var isSinglePostMode: Bool = false
+    var singlePost: Post? = nil // Optional single post for detailed view
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack{
@@ -55,42 +58,69 @@ struct ReusablePostView: View {
             await fetchPosts()
         }
     }
-
-// Displaying Fetched Post's
-@ViewBuilder
-func Posts()->some View{
-    ForEach(posts) { post in
-           PostCardView(post: post,
-                        onUpdate: { updatedPost in
-                            // Updating Post in the Array
-                            if let index = self.posts.firstIndex(where: { $0.id == updatedPost.id }) {
-                                self.posts[index].likedIDs = updatedPost.likedIDs
-                                self.posts[index].dislikedIDs = updatedPost.dislikedIDs
-                            }
-                        },
-                        onDelete: {
-                            // Removing Post from the Array
-                            withAnimation(.easeInOut(duration: 0.25)) {
-                                self.posts.removeAll { $0.id == post.id }
-                            }
-                        },
-                        onHidePost: { postIDToRemove in
-                            // Removing hidden post from the Array
-                            withAnimation(.easeInOut(duration: 0.25)) {
-                                self.posts.removeAll { $0.id == postIDToRemove }
-                            }
-                        })
-           .onAppear {
-               // Fetch more posts when the last post appears
-               if post.id == self.posts.last?.id && self.paginationDoc != nil {
-                   Task {
-                       await self.fetchPosts()
-                   }
-               }
-           }
+    
+    // Displaying Fetched Post's
+    @ViewBuilder
+    func Posts()->some View{
+        if isSinglePostMode, let post = singlePost {
+                // Display details for the single post
+                PostCardView(post: post,
+                            onUpdate: { updatedPost in
+                    // Updating Post in the Array
+                    if let index = self.posts.firstIndex(where: { $0.id == updatedPost.id }) {
+                        self.posts[index].likedIDs = updatedPost.likedIDs
+                        self.posts[index].dislikedIDs = updatedPost.dislikedIDs
+                    }
+                },
+                            onDelete: {
+                    // Removing Post from the Array
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        self.posts.removeAll { $0.id == post.id }
+                    }
+                },
+                            onHidePost: { postIDToRemove in
+                    // Removing hidden post from the Array
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        self.posts.removeAll { $0.id == postIDToRemove }
+                    }
+                }, isSinglePostMode: isSinglePostMode)
+                // Optionally, add more detailed views or components specific to the single post here
+            } else {
         
-        Divider()
-            .padding(.horizontal, -15)
+        
+        ForEach(posts) { post in
+            PostCardView(post: post,
+                         onUpdate: { updatedPost in
+                // Updating Post in the Array
+                if let index = self.posts.firstIndex(where: { $0.id == updatedPost.id }) {
+                    self.posts[index].likedIDs = updatedPost.likedIDs
+                    self.posts[index].dislikedIDs = updatedPost.dislikedIDs
+                }
+            },
+                         onDelete: {
+                // Removing Post from the Array
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    self.posts.removeAll { $0.id == post.id }
+                }
+            },
+                         onHidePost: { postIDToRemove in
+                // Removing hidden post from the Array
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    self.posts.removeAll { $0.id == postIDToRemove }
+                }
+            },isSinglePostMode: isSinglePostMode)
+            .onAppear {
+                // Fetch more posts when the last post appears
+                if post.id == self.posts.last?.id && self.paginationDoc != nil {
+                    Task {
+                        await self.fetchPosts()
+                    }
+                }
+            }
+            
+            Divider()
+                .padding(.horizontal, -15)
+        }
     }
 }
  

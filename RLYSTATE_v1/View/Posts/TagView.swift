@@ -27,7 +27,6 @@ struct TagView: View {
                     }
                 }
             }
-            // No need for .onAppear to load tags as they are now directly managed and passed in
         }
     }
 }
