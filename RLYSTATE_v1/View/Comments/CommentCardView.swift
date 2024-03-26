@@ -55,9 +55,9 @@ struct CommentCardView: View {
                     
                 }
                 
-                Text(comment.text)
-                    .textSelection(.enabled)
-                    .padding(.vertical, 8)
+                getFormattedCommentText(comment.text)
+                                   .textSelection(.enabled)
+                                   .padding(.vertical, 8)
                 
                 
                 
@@ -334,6 +334,38 @@ struct CommentCardView: View {
     }
 }
 
+func getFormattedCommentText(_ text: String) -> Text {
+    var result = Text("")
+    let components = text.components(separatedBy: "@")
+
+    if components.count > 1 {
+        for (index, component) in components.enumerated() {
+            if index == 0 {
+                if !component.isEmpty {
+                    result = result + Text(component)
+                }
+            } else {
+               
+                let subcomponents = component.split(separator: " ", maxSplits: 1, omittingEmptySubsequences: true)
+                if let firstWord = subcomponents.first {
+                    let restOfComponent = component.dropFirst(firstWord.count)
+                  
+                    let formattedUsername = Text("@").foregroundColor(.blue) + Text(String(firstWord)).foregroundColor(Color(red: 83 / 255, green: 113 / 255, blue: 255 / 255))
+                    let restOfText = Text(String(restOfComponent))
+                    result = result + formattedUsername + restOfText
+                } else {
+                    
+                    result = result + Text("@").foregroundColor(.blue)
+                }
+            }
+        }
+    } else {
+       
+        result = Text(text)
+    }
+
+    return result
+}
 
 // MARK: - Mock Preview
 
