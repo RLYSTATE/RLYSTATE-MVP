@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseAnalytics
 import FirebaseFirestore
+import FirebaseAuth
 
 struct PostsView: View {
     @State private var recentPosts: [Post] = []
@@ -15,6 +16,31 @@ struct PostsView: View {
     //tags
     @State private var topTags: [String] = []
     @State private var selectedTag: String?
+    //Notificaitons
+    @State private var notificationsCount: Int = 0
+    @State private var navigateToNotifications = false
+    @State private var docListener: ListenerRegistration?
+    
+    
+    
+    var notificationIconWithCount: some View {
+          ZStack(alignment: .topTrailing) {
+              Image(systemName: "person.wave.2")
+                  .foregroundColor(.primary)
+              
+              if notificationsCount > 0 {
+                  Text("\(notificationsCount)")
+                      .font(.caption2)
+                      .padding(5)
+                      .foregroundColor(.white)
+                      .background(Color.red)
+                      .clipShape(Circle())
+                      .offset(x: 10, y: -10)
+              }
+          }
+      }
+      
+    
     
     
     var body: some View {
@@ -71,11 +97,32 @@ struct PostsView: View {
                         }
                         .padding(15)
                     }
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(action: {
+                                // Call the function to mark notifications as read and navigate
+                                markNotificationsAsReadAndNavigate()
+                            }) {
+                                notificationIconWithCount
+                            }
+                        }
+                    }
                     .navigationTitle("Post's")
                     .onAppear {
                             fetchTopTags()
                             fetchAllPosts()
+                            fetchNotificationCount()
+                            
                         }
+            }
+            .fullScreenCover(isPresented: $navigateToNotifications) {
+                NavigationView {
+                    NotificationView()
+                        .navigationBarItems(leading: Button("Back") {
+                            navigateToNotifications = false
+                        })
+                }
+                .transition(.move(edge: .trailing)) // Custom transition: slide from right to left
             }
             .fullScreenCover(isPresented: $createNewPost) {
                 CreateNewPost { post in
@@ -147,6 +194,50 @@ struct PostsView: View {
             }
     }
     
+    func fetchNotificationCount() {
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+
+        let db = Firestore.firestore()
+        docListener = db.collection("Notifications")
+          .whereField("userUID", isEqualTo: userUID)
+          .whereField("isRead", isEqualTo: false) // Add this condition to fetch only unread notifications
+          .addSnapshotListener { snapshot, error in
+              if let error = error {
+                  print("Error getting notifications count: \(error)")
+                  return
+              }
+              let count = snapshot?.documents.count ?? 0
+              DispatchQueue.main.async {
+                  self.notificationsCount = count
+              }
+          }
+    }
+    
+    func markNotificationsAsReadAndNavigate() {
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        
+        // Start updating the notifications as read in Firestore
+        let db = Firestore.firestore()
+        db.collection("Notifications")
+            .whereField("userUID", isEqualTo: userUID)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("Error marking notifications as read: \(error)")
+                    return
+                }
+                
+                // Update each notification as read
+                for document in snapshot!.documents {
+                    db.collection("Notifications").document(document.documentID).updateData(["isRead": true])
+                }
+                
+                // After marking notifications, reset the count and trigger navigation
+                DispatchQueue.main.async {
+                    self.notificationsCount = 0
+                    self.navigateToNotifications = true
+                }
+            }
+        }
     }
 
     struct PostsView_Previews: PreviewProvider {

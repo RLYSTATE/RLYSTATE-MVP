@@ -126,7 +126,7 @@ struct ReusableCommentView: View {
             // Decoding the fetched documents into Comment models
             let fetchedComments = docsSnapshot.documents.compactMap { queryDocumentSnapshot -> Comment? in
                 do {
-                    // Try to initialize a Comment value from the DocumentSnapshot.
+                
                     let comment = try queryDocumentSnapshot.data(as: Comment.self)
                     print("Fetched comment ID: \(comment.id ?? "nil")")
                     return comment

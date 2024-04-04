@@ -26,14 +26,15 @@ struct Comment: Identifiable, Codable, Equatable, Hashable {
     var hiddenFor: [String]?
     /// Tags
     var tags: [String]?
+    // Mentions
+    var mentions: [String]?
     
-    // Add any other properties or initializers you need
+
     
     enum CodingKeys: String, CodingKey {
         case id
         case text
-        case imageURL // This key needs to match the field in Firestore
-        // ... add other keys for coding/decoding
+        case imageURL
         case publishedDate
         case likedIDs
         case dislikedIDs
@@ -45,5 +46,6 @@ struct Comment: Identifiable, Codable, Equatable, Hashable {
         case userProfileURL
         case hiddenFor
         case tags
+        case mentions
     }
 }

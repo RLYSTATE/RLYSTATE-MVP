@@ -13,6 +13,13 @@ import UIKit
 import MessageUI
 import SafariServices
 
+
+struct CommentNotification: Codable {
+    let commentID: String
+    let likedByUserID: String
+    let timestamp: Date
+}
+
 struct CommentCardView: View {
     var comment: Comment
     var postID: String
@@ -241,17 +248,24 @@ struct CommentCardView: View {
     /// Liking Comment
     func likeComment() {
         Task {
-                guard let commentID = comment.id, !commentID.isEmpty else {
-                    print("Error: Comment ID is nil or empty")
+            guard let commentID = comment.id, !commentID.isEmpty else {
+                print("Error: Comment ID is nil or empty")
+                return
+            }
+            
+            do {
+                guard let liker = try await fetchUserDetails(by: userUID) else {
+                    print("Failed to fetch user details for the liker.")
                     return
                 }
 
-                if comment.likedIDs.contains(userUID) {
-                    // Remove like
-                    try await Firestore.firestore()
-                        .collection("Posts").document(postID)
-                        .collection("Comments").document(commentID)
-                        .updateData(["likedIDs": FieldValue.arrayRemove([userUID])])
+
+            if comment.likedIDs.contains(userUID) {
+                // Remove like
+                try await Firestore.firestore()
+                    .collection("Posts").document(postID)
+                    .collection("Comments").document(commentID)
+                    .updateData(["likedIDs": FieldValue.arrayRemove([userUID])])
             } else {
                 // Add like and remove dislike
                 try await Firestore.firestore()
@@ -261,9 +275,31 @@ struct CommentCardView: View {
                         "likedIDs": FieldValue.arrayUnion([userUID]),
                         "dislikedIDs": FieldValue.arrayRemove([userUID])
                     ])
+                
+                // Create a notification object for the user who posted the comment
+                
+                let notification = Notification(
+                    postId: postID,
+                    commentId: commentID,
+                    type: .likedcomment,
+                    isRead: false,
+                    timestamp: Date(),
+                    triggerUserId: liker.userUID, // User who liked the comment
+                    triggerUserName: liker.userName,
+                    triggerUserProfileURL: liker.userProfileURL,
+                    userName: comment.userName, // User who gets notification
+                    userUID: comment.userUID,
+                    hiddenFor: []
+                )
+                
+                // Save the notification to Firestore
+                await saveNotificationToFirebase(notification: notification)
+                        }
+                    } catch {
+                        print("Error fetching user or saving notification: \(error.localizedDescription)")
+                    }
+                }
             }
-        }
-    }
 
     /// Disliking Comment
     func dislikeComment() {
@@ -332,6 +368,32 @@ struct CommentCardView: View {
     func reportPost(){
         print("Post reported")
     }
+    
+    func saveNotificationToFirebase(notification: Notification) async {
+        let firestore = Firestore.firestore()
+        let notificationsRef = firestore.collection("Notifications")
+        
+        do {
+            // Convert the Notification model to a dictionary
+            let notificationDict = try Firestore.Encoder().encode(notification)
+            
+            // Add a new document with a generated ID
+            let ref = try await notificationsRef.addDocument(data: notificationDict)
+            print("Notification saved with ID: \(ref.documentID)")
+        } catch {
+            print("Error saving notification: \(error.localizedDescription)")
+        }
+    }
+    func fetchUserDetails(by userUID: String) async throws -> User? {
+        let firestore = Firestore.firestore()
+        let userDocRef = firestore.collection("Users").document(userUID)
+        
+        let documentSnapshot = try await userDocRef.getDocument()
+        let user = try documentSnapshot.data(as: User.self)
+        return user
+    }
+    
+    
 }
 
 func getFormattedCommentText(_ text: String) -> Text {
@@ -350,7 +412,7 @@ func getFormattedCommentText(_ text: String) -> Text {
                 if let firstWord = subcomponents.first {
                     let restOfComponent = component.dropFirst(firstWord.count)
                   
-                    let formattedUsername = Text("@").foregroundColor(.blue) + Text(String(firstWord)).foregroundColor(Color(red: 83 / 255, green: 113 / 255, blue: 255 / 255))
+                    let formattedUsername = Text("@").foregroundColor(Color(red: 83 / 255, green: 113 / 255, blue: 255 / 255)) + Text(String(firstWord)).foregroundColor(Color(red: 83 / 255, green: 113 / 255, blue: 255 / 255))
                     let restOfText = Text(String(restOfComponent))
                     result = result + formattedUsername + restOfText
                 } else {
@@ -371,19 +433,17 @@ func getFormattedCommentText(_ text: String) -> Text {
 
 struct CommentCardView_Previews: PreviewProvider {
     static var previews: some View {
-        // Create a mock comment instance
         let mockComment = Comment(
-            id: "mockCommentID", // Make sure your Comment struct has an `id` field or remove this line if it doesn't
+            id: "mockCommentID",
             text: "This is a test comment.",
             likedIDs: [], dislikedIDs: [], userName: "Mock User",
             userUID: "mockUserUID",
-            userProfileURL: URL(string: "https://via.placeholder.com/50") // Assuming your Comment model has these fields
+            userProfileURL: URL(string: "https://via.placeholder.com/50")
         )
 
-        // Define a mock post ID for preview purposes
         let mockPostID = "mockPostID"
 
-        // Instantiate your CommentCardView with the mock comment and mock post ID
+        // mock comment and mock post ID
         CommentCardView(
             comment: mockComment,
             postID: mockPostID,

@@ -141,6 +141,6 @@ struct ProfileView: View {
 // Preview provider
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ProfileView()
     }
 }

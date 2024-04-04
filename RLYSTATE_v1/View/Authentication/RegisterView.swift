@@ -126,6 +126,9 @@ struct RegisterView: View{
             TextField("Username", text: $userName)
                 .textContentType(.emailAddress)
                 .border(1, .gray.opacity(0.5))
+                .onChange(of: userName) {
+        userName = userName.replacingOccurrences(of:        " ", with: "")
+                }
                 
             
             TextField("Email", text: $emailID)
@@ -236,6 +239,6 @@ extension View {
 
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        RegisterView()
     }
 }

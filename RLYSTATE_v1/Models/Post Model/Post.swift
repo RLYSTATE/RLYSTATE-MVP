@@ -5,7 +5,7 @@ import Foundation
 struct Post: Identifiable, Codable, Equatable,Hashable {
     @DocumentID var id: String?
     var text: String
-    var imageURL: URL? // Store as String for Firestore
+    var imageURL: URL? 
     var imageReferenceID: String = ""
     var publishedDate: Date = Date()
     var likedIDs: [String] = []
@@ -26,7 +26,7 @@ struct Post: Identifiable, Codable, Equatable,Hashable {
         case id
         case text
         case imageURL
-        case imageReferenceID // Make sure this matches the property name
+        case imageReferenceID 
         case publishedDate
         case likedIDs
         case dislikedIDs

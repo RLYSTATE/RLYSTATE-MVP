@@ -110,7 +110,6 @@ struct LoginView: View {
         let user = try await Firestore.firestore().collection("Users").document(userID).getDocument(as: User.self)
         // UI updating must be run on main thread
         await MainActor.run(body: {
-            // Setting UserDefaults data and changing App's Auth Status
             userUID = userID
             userNameStored = user.userName
             profileURL = user.userProfileURL
@@ -132,7 +131,6 @@ struct LoginView: View {
     
     // Displaying Error VIA Alert
     func setError(_ error: Error)async{
-        //UI Must be Updated on Main Thread
         await MainActor.run(body: {
             errorMessage = error.localizedDescription
             showError.toggle()

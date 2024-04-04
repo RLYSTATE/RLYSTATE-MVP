@@ -29,6 +29,7 @@ struct PostCardView: View {
     @State private var commentCount: Int = 0
     var isSinglePostMode: Bool
     
+    
 //    @State private var safariURL = URL(string: "https://www.rlystate.com/contact-us")!
     
     
@@ -277,20 +278,47 @@ struct PostCardView: View {
     func likePost(){
         Task{
             guard let postID = post.id else{return}
+            
+            do {
+                guard let liker = try await fetchUserDetails(by: userUID) else {
+                    print("Failed to fetch user details for the liker.")
+                    return
+                }
+            
             if post.likedIDs.contains(userUID){
                 /// Removing Likes
                 try await Firestore.firestore().collection("Post").document(postID).updateData([
                     "likedIDs": FieldValue.arrayRemove([userUID])
                 ])
+                
             }else{
                 /// Adding User ID to liked array and removing our ID from disliked Array (if added)
                 try await Firestore.firestore().collection("Posts").document(postID).updateData([
                     "likedIDs": FieldValue.arrayUnion([userUID]),
                     "dislikedIDs": FieldValue.arrayRemove([userUID])
                 ])
+                
+                let notification = Notification(
+                    postId: postID,
+                    type: .likedpost,
+                    isRead: false,
+                    timestamp: Date(),
+                    triggerUserId: liker.userUID, // User who liked the comment
+                    triggerUserName: liker.userName, // Replace with actual username if available
+                    triggerUserProfileURL: liker.userProfileURL,
+                    userName: post.userName,
+                    userUID: post.userUID,
+                    hiddenFor: []
+                )
+                
+                // Save the notification to Firestore
+                await saveNotificationToFirebase(notification: notification)
             }
+        } catch {
+            print("Error fetching user or saving notification: \(error.localizedDescription)")
         }
     }
+}
     
     /// Dislike Post
     func dislikePost(){
@@ -355,6 +383,32 @@ struct PostCardView: View {
     func reportPost(){
         print("Post reported")
     }
+    
+    func saveNotificationToFirebase(notification: Notification) async {
+        let firestore = Firestore.firestore()
+        let notificationsRef = firestore.collection("Notifications")
+        
+        do {
+            // Convert the Notification model to a dictionary
+            let notificationDict = try Firestore.Encoder().encode(notification)
+            
+            // Add a new document with a generated ID
+            let ref = try await notificationsRef.addDocument(data: notificationDict)
+            print("Notification saved with ID: \(ref.documentID)")
+        } catch {
+            print("Error saving notification: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchUserDetails(by userUID: String) async throws -> User? {
+        let firestore = Firestore.firestore()
+        let userDocRef = firestore.collection("Users").document(userUID)
+        
+        let documentSnapshot = try await userDocRef.getDocument()
+        let user = try documentSnapshot.data(as: User.self)
+        return user
+    }
+    
     
     func fetchCommentCount(for postID: String) {
         let db = Firestore.firestore()
