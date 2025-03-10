@@ -34,6 +34,7 @@ struct PostCardView: View {
     
     
     var body: some View {
+        
         HStack(alignment: .top, spacing: 12) {
             WebImage(url: post.userProfileURL)
                 .resizable()

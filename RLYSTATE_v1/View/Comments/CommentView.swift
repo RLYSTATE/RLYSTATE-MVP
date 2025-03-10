@@ -23,6 +23,7 @@ struct CommentView: View {
     @State var text = ""
     @State var height : CGFloat = 0
     @State private var isShowingUserSearch = false
+    @Environment(\.presentationMode) var presentationMode
     
     
     
@@ -54,7 +55,7 @@ struct CommentView: View {
                 Button(action: {
                     withAnimation {
                         print("Dismiss button tapped")
-                        self.isShowing = false // Dismiss AnnotationPostView Return to Map
+                        presentationMode.wrappedValue.dismiss() // Dismiss AnnotationPostView Return to Map
                     }
                 }) {
                     Image(systemName: "xmark")
@@ -68,9 +69,13 @@ struct CommentView: View {
             }
             ScrollView{
                 ReusablePostView(posts: $fetchedPosts, isSinglePostMode: true, singlePost: post)
-                
                 ReusableCommentView(post: post, comments: $fetchedComments)
                     .padding(.horizontal,12)
+            }
+            
+            .onAppear {
+                print("CommentView appearing with post ID: \(post.id ?? "nil")")
+                // It's a good place to ensure that the post data is correctly set for singlePostMode
             }
             
             //comment box - to UPDATE

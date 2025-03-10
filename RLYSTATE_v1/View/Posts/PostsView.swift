@@ -117,10 +117,13 @@ struct PostsView: View {
             }
             .fullScreenCover(isPresented: $navigateToNotifications) {
                 NavigationView {
-                    NotificationView()
-                        .navigationBarItems(leading: Button("Back") {
-                            navigateToNotifications = false
-                        })
+                    NotificationView(onNotificationSelected: { notification in
+                        print("Selected notification for post ID: \(notification.postId)")
+                        // Here you might navigate to a detail view for the post associated with the notification
+                    })
+                    .navigationBarItems(leading: Button("Back") {
+                        navigateToNotifications = false
+                    })
                 }
                 .transition(.move(edge: .trailing)) // Custom transition: slide from right to left
             }

@@ -53,79 +53,90 @@ struct ReusablePostView: View {
             await fetchPosts()
         }
         .task {
-            // Fetching for One time
-            guard posts.isEmpty else{return}
-            await fetchPosts()
+            // Check if we're in single post mode and have a valid singlePost
+            if isSinglePostMode, let singlePost = singlePost {
+                // Directly set the posts array to contain only the singlePost
+                // This ensures the view immediately has the correct data to render
+                await MainActor.run {
+                    self.posts = [singlePost]
+                    isFetching = false
+                }
+                print("Single post mode, displaying the provided post.")
+            } else if posts.isEmpty {
+                // If not in single post mode and posts array is empty, fetch posts
+                await fetchPosts()
+            }
         }
     }
     
     // Displaying Fetched Post's
     @ViewBuilder
-    func Posts()->some View{
-        if isSinglePostMode, let post = singlePost {
-                // Display details for the single post
+    func Posts() -> some View {
+        if isSinglePostMode {
+            // When in single post mode, we expect `singlePost` to be non-nil.
+            if let post = singlePost {
+                // Display details for the single post.
                 PostCardView(post: post,
-                            onUpdate: { updatedPost in
-                    // Updating Post in the Array
-                    if let index = self.posts.firstIndex(where: { $0.id == updatedPost.id }) {
-                        self.posts[index].likedIDs = updatedPost.likedIDs
-                        self.posts[index].dislikedIDs = updatedPost.dislikedIDs
-                    }
-                },
-                            onDelete: {
-                    // Removing Post from the Array
-                    withAnimation(.easeInOut(duration: 0.25)) {
-                        self.posts.removeAll { $0.id == post.id }
-                    }
-                },
-                            onHidePost: { postIDToRemove in
-                    // Removing hidden post from the Array
-                    withAnimation(.easeInOut(duration: 0.25)) {
-                        self.posts.removeAll { $0.id == postIDToRemove }
-                    }
-                }, isSinglePostMode: isSinglePostMode)
-                // Optionally, add more detailed views or components specific to the single post here
+                             onUpdate: { updatedPost in
+                                 // Updating Post in the Array.
+                                 if let index = self.posts.firstIndex(where: { $0.id == updatedPost.id }) {
+                                     self.posts[index].likedIDs = updatedPost.likedIDs
+                                     self.posts[index].dislikedIDs = updatedPost.dislikedIDs
+                                 }
+                             },
+                             onDelete: {
+                                 // Removing Post from the Array.
+                                 withAnimation(.easeInOut(duration: 0.25)) {
+                                     self.posts.removeAll { $0.id == post.id }
+                                 }
+                             },
+                             onHidePost: { postIDToRemove in
+                                 // Removing hidden post from the Array.
+                                 withAnimation(.easeInOut(duration: 0.25)) {
+                                     self.posts.removeAll { $0.id == postIDToRemove }
+                                 }
+                             }, isSinglePostMode: isSinglePostMode)
             } else {
-        
-        
-        ForEach(posts) { post in
-            PostCardView(post: post,
-                         onUpdate: { updatedPost in
-                // Updating Post in the Array
-                if let index = self.posts.firstIndex(where: { $0.id == updatedPost.id }) {
-                    self.posts[index].likedIDs = updatedPost.likedIDs
-                    self.posts[index].dislikedIDs = updatedPost.dislikedIDs
-                }
-            },
-                         onDelete: {
-                // Removing Post from the Array
-                withAnimation(.easeInOut(duration: 0.25)) {
-                    self.posts.removeAll { $0.id == post.id }
-                }
-            },
-                         onHidePost: { postIDToRemove in
-                // Removing hidden post from the Array
-                withAnimation(.easeInOut(duration: 0.25)) {
-                    self.posts.removeAll { $0.id == postIDToRemove }
-                }
-            },isSinglePostMode: isSinglePostMode)
-            .onAppear {
-                // Fetch more posts when the last post appears
-                if post.id == self.posts.last?.id && self.paginationDoc != nil {
-                    Task {
-                        await self.fetchPosts()
+                // Fallback text if for some reason `singlePost` is nil.
+                Text("Post not found")
+            }
+        } else {
+            // Handle multiple posts case.
+            ForEach(posts) { post in
+                PostCardView(post: post,
+                             onUpdate: { updatedPost in
+                                 if let index = self.posts.firstIndex(where: { $0.id == updatedPost.id }) {
+                                     self.posts[index].likedIDs = updatedPost.likedIDs
+                                     self.posts[index].dislikedIDs = updatedPost.dislikedIDs
+                                 }
+                             },
+                             onDelete: {
+                                 withAnimation(.easeInOut(duration: 0.25)) {
+                                     self.posts.removeAll { $0.id == post.id }
+                                 }
+                             },
+                             onHidePost: { postIDToRemove in
+                                 withAnimation(.easeInOut(duration: 0.25)) {
+                                     self.posts.removeAll { $0.id == postIDToRemove }
+                                 }
+                             }, isSinglePostMode: isSinglePostMode)
+                .onAppear {
+                    if post.id == self.posts.last?.id && self.paginationDoc != nil {
+                        Task {
+                            await self.fetchPosts()
+                        }
                     }
                 }
+                
+                Divider()
+                    .padding(.horizontal, -15)
             }
-            
-            Divider()
-                .padding(.horizontal, -15)
         }
     }
-}
  
     //Fetching Posts
 func fetchPosts()async{
+    print("Starting to fetch posts...")
     do{
         var query: Query!
         /// - Implementing Pagination
@@ -170,6 +181,7 @@ func fetchPosts()async{
             paginationDoc = docs.documents.last
             isFetching = false
         }
+        print("Fetched posts count: \(fetchedPosts.count)")
     }catch{
         print(error.localizedDescription)
         }

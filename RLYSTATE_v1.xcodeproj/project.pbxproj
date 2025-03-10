@@ -13,10 +13,14 @@
 		53117A2D2B23CE2A0068752E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53117A2C2B23CE2A0068752E /* Preview Assets.xcassets */; };
 		5313A7132BAB33A8001F13CF /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A7122BAB33A8001F13CF /* CommentView.swift */; };
 		5313A7212BAB7736001F13CF /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A7202BAB7736001F13CF /* Comment.swift */; };
-		5313A7252BAB887E001F13CF /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A7242BAB887E001F13CF /* FirestoreManager.swift */; };
 		5313A7272BAC89B0001F13CF /* CommentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A7262BAC89B0001F13CF /* CommentCardView.swift */; };
 		5313A7292BAC903F001F13CF /* ReusableCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A7282BAC903F001F13CF /* ReusableCommentView.swift */; };
 		5313A7342BB102DF001F13CF /* UserSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A7332BB102DF001F13CF /* UserSearchResultsView.swift */; };
+		5313A73C2BB350ED001F13CF /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A73B2BB350ED001F13CF /* NotificationView.swift */; };
+		5313A73F2BB35AA2001F13CF /* ReusableNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A73E2BB35AA2001F13CF /* ReusableNotificationView.swift */; };
+		5313A7432BB35AC9001F13CF /* NotificationCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A7422BB35AC9001F13CF /* NotificationCardView.swift */; };
+		5313A74F2BBC8479001F13CF /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A74E2BBC8479001F13CF /* Notification.swift */; };
+		5313A7532BC08C82001F13CF /* CommentWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5313A7522BC08C82001F13CF /* CommentWrapperView.swift */; };
 		537E815B2B50D6ED009B0890 /* LoginIntro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537E815A2B50D6ED009B0890 /* LoginIntro.swift */; };
 		5395D5D62B4CB5F2004AEFB9 /* AnnotationPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395D5D52B4CB5F2004AEFB9 /* AnnotationPostView.swift */; };
 		53A646D42B9F912300BF256A /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A646D32B9F912300BF256A /* TagView.swift */; };
@@ -94,10 +98,14 @@
 		53117A2C2B23CE2A0068752E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5313A7122BAB33A8001F13CF /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		5313A7202BAB7736001F13CF /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		5313A7242BAB887E001F13CF /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		5313A7262BAC89B0001F13CF /* CommentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCardView.swift; sourceTree = "<group>"; };
 		5313A7282BAC903F001F13CF /* ReusableCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCommentView.swift; sourceTree = "<group>"; };
 		5313A7332BB102DF001F13CF /* UserSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchResultsView.swift; sourceTree = "<group>"; };
+		5313A73B2BB350ED001F13CF /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		5313A73E2BB35AA2001F13CF /* ReusableNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableNotificationView.swift; sourceTree = "<group>"; };
+		5313A7422BB35AC9001F13CF /* NotificationCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCardView.swift; sourceTree = "<group>"; };
+		5313A74E2BBC8479001F13CF /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		5313A7522BC08C82001F13CF /* CommentWrapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWrapperView.swift; sourceTree = "<group>"; };
 		537E815A2B50D6ED009B0890 /* LoginIntro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginIntro.swift; sourceTree = "<group>"; };
 		5395D5D52B4CB5F2004AEFB9 /* AnnotationPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationPostView.swift; sourceTree = "<group>"; };
 		53A646D32B9F912300BF256A /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
@@ -204,6 +212,7 @@
 				53117A3D2B23CF9C0068752E /* Models */,
 				53117A292B23CE2A0068752E /* Assets.xcassets */,
 				53B77B942B85272C0017FA1A /* ComplexLogView.swift */,
+				537E815A2B50D6ED009B0890 /* LoginIntro.swift */,
 				53117A2B2B23CE2A0068752E /* Preview Content */,
 			);
 			path = RLYSTATE_v1;
@@ -222,10 +231,10 @@
 			children = (
 				53EC9AF02B3F1DCD003D876A /* Location.swift */,
 				53A646D52B9F922E00BF256A /* Tag.swift */,
+				5313A74E2BBC8479001F13CF /* Notification.swift */,
 				53EC9AF12B3F1DCD003D876A /* LocationManager.swift */,
 				53EC9AF22B3F1DCD003D876A /* LocationSearchViewModel.swift */,
 				53EC9AEF2B3F1DCD003D876A /* MapViewState.swift */,
-				537E815A2B50D6ED009B0890 /* LoginIntro.swift */,
 				53EC9AB92B3E1429003D876A /* Post Model */,
 			);
 			path = Models;
@@ -238,8 +247,19 @@
 				5313A7262BAC89B0001F13CF /* CommentCardView.swift */,
 				5313A7282BAC903F001F13CF /* ReusableCommentView.swift */,
 				5313A7332BB102DF001F13CF /* UserSearchResultsView.swift */,
+				5313A7522BC08C82001F13CF /* CommentWrapperView.swift */,
 			);
 			path = Comments;
+			sourceTree = "<group>";
+		};
+		5313A73D2BB350F5001F13CF /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				5313A73B2BB350ED001F13CF /* NotificationView.swift */,
+				5313A7422BB35AC9001F13CF /* NotificationCardView.swift */,
+				5313A73E2BB35AA2001F13CF /* ReusableNotificationView.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		53EC9AB62B3E1246003D876A /* View */ = {
@@ -248,6 +268,7 @@
 				9122087E2B338F4B00E6AD55 /* Authentication */,
 				53EC9ACF2B3E15F7003D876A /* MainView */,
 				5313A7302BB0DD8D001F13CF /* Comments */,
+				5313A73D2BB350F5001F13CF /* Notifications */,
 				53EC9AC22B3E1533003D876A /* Posts */,
 				53EC9B112B474869003D876A /* ProfileView */,
 				53EC9ACC2B3E15B0003D876A /* Map */,
@@ -311,7 +332,6 @@
 				53EC9AD82B3E1622003D876A /* View-Extensions.swift */,
 				53B77AD22B7BD5820017FA1A /* MailComposeViewController.swift */,
 				53B77AD42B7C15B10017FA1A /* ViewController.swift */,
-				5313A7242BAB887E001F13CF /* FirestoreManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -478,8 +498,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				53EC9AF42B3F1DCD003D876A /* Location.swift in Sources */,
-				5313A7252BAB887E001F13CF /* FirestoreManager.swift in Sources */,
 				5313A7342BB102DF001F13CF /* UserSearchResultsView.swift in Sources */,
+				5313A7532BC08C82001F13CF /* CommentWrapperView.swift in Sources */,
 				53EC9AF92B3F1DED003D876A /* Post.swift in Sources */,
 				53EC9B032B3F1E0F003D876A /* ReusableProfileContent.swift in Sources */,
 				53EC9B102B3F1E54003D876A /* CreateNewPost.swift in Sources */,
@@ -491,8 +511,11 @@
 				5313A7212BAB7736001F13CF /* Comment.swift in Sources */,
 				53EC9B002B3F1E0F003D876A /* ProfileVIew.swift in Sources */,
 				53D1852F2B61C39100B0DB9E /* PostDetailsView.swift in Sources */,
+				5313A73F2BB35AA2001F13CF /* ReusableNotificationView.swift in Sources */,
 				53A646D82B9F943400BF256A /* TagField.swift in Sources */,
 				53EC9AD72B3E1618003D876A /* LocationSearchResultsCell.swift in Sources */,
+				5313A7432BB35AC9001F13CF /* NotificationCardView.swift in Sources */,
+				5313A74F2BBC8479001F13CF /* Notification.swift in Sources */,
 				53EC9AE72B3E1646003D876A /* MapView.swift in Sources */,
 				53EC9B0C2B3F1E3B003D876A /* RegisterView.swift in Sources */,
 				5313A7292BAC903F001F13CF /* ReusableCommentView.swift in Sources */,
@@ -503,6 +526,7 @@
 				5313A7132BAB33A8001F13CF /* CommentView.swift in Sources */,
 				53EC9B0F2B3F1E54003D876A /* PostsView.swift in Sources */,
 				53EC9AFA2B3F1DED003D876A /* User.swift in Sources */,
+				5313A73C2BB350ED001F13CF /* NotificationView.swift in Sources */,
 				53A646D42B9F912300BF256A /* TagView.swift in Sources */,
 				53EC9AF52B3F1DCD003D876A /* LocationManager.swift in Sources */,
 				53117A282B23CE270068752E /* ContentView.swift in Sources */,
@@ -652,6 +676,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -662,12 +687,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RLYSTATE-v1-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = RLYSTATE;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow us to access your location to find Rlystates near you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -691,6 +718,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -700,12 +728,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RLYSTATE-v1-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = RLYSTATE;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow us to access your location to find Rlystates near you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

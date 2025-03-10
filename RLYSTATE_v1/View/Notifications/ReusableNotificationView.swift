@@ -19,6 +19,8 @@ struct ReusableNotificationView: View {
     var userUID: String
     @State private var notifications: [Notification] = []
     var onDelete: ()->()
+    var onNotificationSelected: (Notification) -> Void
+    
     
     
     var body: some View {
@@ -82,6 +84,9 @@ struct ReusableNotificationView: View {
                         self.notifications.removeAll { $0.id == notification.id }
                     }
                 })
+            .onTapGesture {
+                   onNotificationSelected(notification)
+               }
             .onAppear {
                 if docListener == nil {
                     
