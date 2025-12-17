@@ -19,5 +19,11 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>RLYSTATE needs your location to show you posts happening nearby and to tag your posts with your current city.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>RLYSTATE needs access to your camera to let you take a profile picture.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>RLYSTATE needs access to your photos to let you choose a profile picture.</string>
 </dict>
 </plist>
